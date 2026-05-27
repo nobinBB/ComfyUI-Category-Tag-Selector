@@ -9,6 +9,9 @@
     - perm hair
   ストレートヘア:
     - straight hair
+  ランダム髪型:
+    >-
+     {short hair|medium hair|bob hair|perm hair|straight hair}
 
 髪色:
   黒色:
