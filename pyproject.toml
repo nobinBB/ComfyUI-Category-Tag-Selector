@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-category-tag-selector"
+description = "YAML category tag selector node for ComfyUI."
+version = "0.1.0"
+license = { text = "MIT" }
+dependencies = ["pyyaml"]
+
+[project.urls]
+Repository = "https://github.com/nobinBB/ComfyUI-Category-Tag-Selector"
+
+[tool.comfy]
+PublisherId = "nobinbb"
+DisplayName = "ComfyUI Category Tag Selector"
+Icon = ""
