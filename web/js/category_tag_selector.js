@@ -78,6 +78,33 @@ function resizeNode(node) {
   }
 }
 
+async function refreshYamlFileList(node) {
+  const yamlWidget = findWidget(node, "yaml_file");
+  if (!yamlWidget) return;
+
+  const oldValue = String(yamlWidget.value ?? "");
+
+  try {
+    const response = await api.fetchApi("/category_tag_selector/yamls");
+    const data = await response.json();
+    const files = Array.isArray(data.files) ? data.files : [];
+
+    if (!files.length) return;
+
+    yamlWidget.options ??= {};
+    yamlWidget.options.values = files;
+
+    if (files.includes(oldValue)) {
+      yamlWidget.value = oldValue;
+    } else {
+      yamlWidget.value = files[0];
+      writeSelections(node, {});
+    }
+  } catch (error) {
+    console.error("[Category Tag Selector] yaml list fetch failed:", error);
+  }
+}
+
 async function loadSchema(node) {
   const yamlWidget = findWidget(node, "yaml_file");
   const yamlFile = yamlWidget?.value;
@@ -160,6 +187,26 @@ function scheduleLoadSchema(node, delay = 100) {
   node._ctsLoadTimer = setTimeout(() => loadSchema(node), delay);
 }
 
+function addRefreshButton(node) {
+  if (node._ctsRefreshButtonAdded) return;
+
+  node._ctsRefreshButtonAdded = true;
+
+  const refreshWidget = node.addWidget(
+    "button",
+    "Refresh YAML Files",
+    null,
+    () => {
+      refreshYamlFileList(node).finally(() => {
+        writeSelections(node, {});
+        scheduleLoadSchema(node, 0);
+      });
+    }
+  );
+
+  refreshWidget.ctsControl = true;
+}
+
 app.registerExtension({
   name: "nobin.categoryTagSelector",
 
@@ -187,7 +234,11 @@ app.registerExtension({
         };
       }
 
-      scheduleLoadSchema(this, 100);
+      addRefreshButton(this);
+
+      refreshYamlFileList(this).finally(() => {
+        scheduleLoadSchema(this, 100);
+      });
 
       return result;
     };
@@ -205,7 +256,10 @@ app.registerExtension({
 
       removeCategoryWidgets(this);
       hideWidget(findWidget(this, "selections_json"));
-      scheduleLoadSchema(this, 100);
+
+      refreshYamlFileList(this).finally(() => {
+        scheduleLoadSchema(this, 100);
+      });
 
       return result;
     };

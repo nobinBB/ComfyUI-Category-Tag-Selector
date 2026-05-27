@@ -1,5 +1,7 @@
 import json
 import os
+import random
+import re
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
@@ -17,19 +19,28 @@ TAGS_DIR.mkdir(exist_ok=True)
 
 
 def _safe_yaml_name(name: str) -> str:
-    name = os.path.basename(str(name or ""))
+    name = str(name or "").replace("\\", "/").lstrip("/")
     if not name.lower().endswith((".yaml", ".yml")):
         raise ValueError("Only .yaml / .yml files are supported.")
+
     path = (TAGS_DIR / name).resolve()
-    if TAGS_DIR.resolve() not in path.parents and path != TAGS_DIR.resolve():
+    tags_root = TAGS_DIR.resolve()
+
+    if tags_root not in path.parents and path != tags_root:
         raise ValueError("Invalid yaml path.")
-    if not path.exists():
+
+    if not path.exists() or not path.is_file():
         raise FileNotFoundError(f"YAML not found: {name}")
+
     return name
 
 
 def _list_yaml_files() -> List[str]:
-    files = sorted(p.name for p in TAGS_DIR.iterdir() if p.is_file() and p.suffix.lower() in (".yaml", ".yml"))
+    files = sorted(
+        p.relative_to(TAGS_DIR).as_posix()
+        for p in TAGS_DIR.rglob("*")
+        if p.is_file() and p.suffix.lower() in (".yaml", ".yml")
+    )
     return files or ["sample_hair.yml"]
 
 
@@ -92,6 +103,22 @@ def _value_to_tags(value: Any) -> List[str]:
         return []
     return [str(value)]
 
+_CHOICE_PATTERN = re.compile(r"\{([^{}|]+(?:\|[^{}|]+)+)\}")
+
+
+def _resolve_choice_syntax(text: str) -> str:
+    """
+    Resolve simple wildcard choice syntax:
+      {a|b|c} -> one of a / b / c
+
+    Nested braces are not supported.
+    """
+
+    def replace(match: re.Match) -> str:
+        options = [part.strip() for part in match.group(1).split("|") if part.strip()]
+        return random.choice(options) if options else ""
+
+    return _CHOICE_PATTERN.sub(replace, str(text))
 
 def _schema_for_yaml(name: str) -> Dict[str, Any]:
     data = _load_yaml(name)
@@ -106,14 +133,23 @@ def _schema_for_yaml(name: str) -> Dict[str, Any]:
 
 
 def _join_tags(tags: List[str], separator: str, trailing_comma: bool) -> str:
-    clean = [str(tag).strip() for tag in tags if str(tag).strip()]
+    clean = [
+        _resolve_choice_syntax(str(tag).strip())
+        for tag in tags
+        if str(tag).strip()
+    ]
+    clean = [tag for tag in clean if tag]
+
     if not clean:
         return ""
+
     sep = separator if separator is not None else ", "
     text = sep.join(clean)
+
     if trailing_comma:
         comma_like = sep.rstrip()
         text += comma_like[-1] if comma_like.endswith(",") else ","
+
     return text
 
 
@@ -136,13 +172,21 @@ class CategoryTagSelector:
                 "selections_json": ("STRING", {"default": "{}", "multiline": True}),
             }
         }
-
-    RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("text",)
+    @classmethod
+    def IS_CHANGED(cls, yaml_file: str, separator: str = ", ", trailing_comma: bool = True, selections_json: str = "{}"):
+        return random.random()
+    RETURN_TYPES = ("STRING", "STRING")
+    RETURN_NAMES = ("prompt", "title_text")
     FUNCTION = "build_prompt"
     CATEGORY = "prompt/yaml"
 
-    def build_prompt(self, yaml_file: str, separator: str = ", ", trailing_comma: bool = True, selections_json: str = "{}") -> Tuple[str]:
+    def build_prompt(
+        self,
+        yaml_file: str,
+        separator: str = ", ",
+        trailing_comma: bool = True,
+        selections_json: str = "{}",
+    ) -> Tuple[str, str]:
         try:
             data = _load_yaml(yaml_file)
             categories = _normalize_categories(data)
@@ -150,17 +194,29 @@ class CategoryTagSelector:
             if not isinstance(selections, dict):
                 selections = {}
         except Exception as exc:
-            return (f"[CategoryTagSelector error: {exc}]",)
+            error_text = f"[CategoryTagSelector error: {exc}]"
+            return (error_text, "")
 
         tags: List[str] = []
-        for category, selected_label in selections.items():
-            if not selected_label or selected_label == "なし":
-                continue
-            options = categories.get(category)
+        selected_titles: List[str] = []
+
+        # YAML側のカテゴリ順を維持して出力する
+        for category, options in categories.items():
             if not isinstance(options, dict):
                 continue
+
+            selected_label = selections.get(category)
+
+            if not selected_label or selected_label == "なし":
+                continue
+
+            selected_titles.append(str(selected_label))
             tags.extend(_value_to_tags(options.get(selected_label)))
-        return (_join_tags(tags, separator, trailing_comma),)
+
+        prompt = _join_tags(tags, separator, trailing_comma)
+        title_text = _join_tags(selected_titles, separator, trailing_comma)
+
+        return (prompt, title_text)
 
 
 def _register_routes():
