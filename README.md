@@ -1,5 +1,6 @@
 # ComfyUI-Category-Tag-Selector
-![Category Tag Selector screenshot](assets/screenshot.git)
+![Category Tag Selector screenshot](https://github.com/nobinBB/ComfyUI-Category-Tag-Selector/blob/main/assets/screenshot.gif)
+
 YAMLのカテゴリ名をノード内に縦展開し、日本語ラベルで選択した項目を英語タグのカンマ区切り `STRING` として出力する ComfyUI カスタムノードです。
 
 ## Node
