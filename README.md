@@ -4,13 +4,13 @@
 
 YAMLのカテゴリ名をノード内に縦展開し、日本語ラベルで選択した項目を英語タグのカンマ区切り `STRING` として出力する ComfyUI カスタムノードです。
 
-選択した日本語ラベル自体も `title_prompt` として出力できます。  
+選択した日本語ラベル自体も `title_text` として出力できます。  
 また、YAML内の値に `{a|b|c}` のようなランダム選択構文を記載できます。
 
 ## Node
 
 ```txt
-Category Tag Selector
+Category Tag Selector(nobin)
 ```
 
 Category:
@@ -23,25 +23,27 @@ Output:
 
 ```txt
 prompt: STRING
-title_prompt: STRING
+title_text: STRING
 ```
 
 ## Features
 
 - `tags/` フォルダ内の `.yml` / `.yaml` を選択
+- `tags/` 配下のサブフォルダ内 `.yml` / `.yaml` も読み込み可能
 - YAMLのカテゴリ名をノード上に動的表示
 - 各カテゴリの日本語ラベルをプルダウンで選択
 - `prompt` 出力では、選択した項目に対応する英語タグをカンマ区切りで出力
-- `title_prompt` 出力では、選択した日本語ラベルをカンマ区切りで出力
+- `title_text` 出力では、選択した日本語ラベルをカンマ区切りで出力
 - `{a|b|c}` 形式のランダム選択構文に対応
 - 直下カテゴリ形式と、単一ルートのネスト形式に対応
+- `Refresh YAML Files` ボタンでYAMLファイル一覧を再取得
 - `selections_json` はJS側で自動更新されます
 
 ## Install
 
 ```bash
 cd ComfyUI/custom_nodes
-git clone <this repository>
+git clone https://github.com/nobinBB/ComfyUI-Category-Tag-Selector.git
 cd ComfyUI-Category-Tag-Selector
 pip install -r requirements.txt
 ```
@@ -77,7 +79,7 @@ ComfyUIを再起動してください。
 prompt:
 short hair, red hair,
 
-title_prompt:
+title_text:
 ショートヘア, 赤色,
 ```
 
@@ -108,15 +110,43 @@ title_prompt:
 prompt:
 short hair, red hair,
 
-title_prompt:
+title_text:
 ショートヘア, 赤色,
 ```
+
+## Subfolder YAML files
+
+`tags/` 配下のサブフォルダにある `.yml` / `.yaml` も読み込みできます。
+
+例:
+
+```txt
+tags/
+  sample_hair.yml
+  eye/
+    sample_eye.yml
+  pose/
+    basic_pose.yml
+  outfit/
+    casual.yml
+```
+
+ノードの `yaml_file` では、以下のような相対パスで表示されます。
+
+```txt
+sample_hair.yml
+eye/sample_eye.yml
+pose/basic_pose.yml
+outfit/casual.yml
+```
+
+サブフォルダでYAMLを分類できるため、髪・目・服装・表情・ポーズなどを分けて管理できます。
 
 ## Outputs
 
 ```txt
 prompt: STRING
-title_prompt: STRING
+title_text: STRING
 ```
 
 ### prompt
@@ -129,7 +159,7 @@ title_prompt: STRING
 short hair, red hair,
 ```
 
-### title_prompt
+### title_text
 
 選択した日本語ラベル自体をカンマ区切りで出力します。
 
@@ -204,8 +234,29 @@ soft smile, light blush,
 
 ```txt
 sample_hair.yml
-sample_eye.yml
-sample_pose.yml
+eye/sample_eye.yml
+pose/basic_pose.yml
+outfit/casual.yml
+```
+
+### Refresh YAML Files
+
+`tags/` フォルダ内のYAMLファイル一覧を再取得します。
+
+ComfyUI起動後に `.yml` / `.yaml` ファイルを追加した場合や、サブフォルダ内にYAMLファイルを追加した場合に使用します。
+
+例:
+
+```txt
+tags/
+  eye/
+    sample_eye.yml
+```
+
+を追加したあと、`Refresh YAML Files` を押すと、`yaml_file` の候補に以下のような項目が反映されます。
+
+```txt
+eye/sample_eye.yml
 ```
 
 ### separator
@@ -277,7 +328,7 @@ JS側で自動更新される内部用の選択状態です。
 prompt:
 tsurime, red eyes,
 
-title_prompt:
+title_text:
 つり目, 赤色,
 ```
 
@@ -300,18 +351,19 @@ title_prompt:
 prompt:
 tareme, golden eyes,
 
-title_prompt:
+title_text:
 ランダム, ランダム,
 ```
 
 ## Notes
 
 - YAMLファイル名一覧はComfyUI起動時の `INPUT_TYPES` で取得します。
-- YAMLファイルを追加した場合は、基本的にComfyUI再起動が必要です。
-- 既存YAMLの中身を変更した場合、ノード作成時・YAML切替時に `/category_tag_selector/schema` から再取得します。
+- ComfyUI起動後にYAMLファイルを追加した場合は、`Refresh YAML Files` ボタンで再取得できます。
+- `tags/` 配下のサブフォルダ内 `.yml` / `.yaml` も読み込み対象です。
+- 既存YAMLの中身を変更した場合、ノード作成時・YAML切替時・Refresh実行時に `/category_tag_selector/schema` から再取得します。
 - ノードのカテゴリ行はフロントエンドJSで動的に追加しています。
 - バックエンドには `selections_json` として選択状態を渡します。
-- `title_prompt` は選択した日本語ラベルを出力します。カテゴリ名ではありません。
+- `title_text` は選択した日本語ラベルを出力します。カテゴリ名ではありません。
 - `{a|b|c}` のランダム展開は `prompt` 側の英語タグ出力に対して使用します。
 
 ## License
