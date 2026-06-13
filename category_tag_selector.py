@@ -1,5 +1,4 @@
 import json
-import os
 import random
 import re
 from pathlib import Path
@@ -48,88 +47,138 @@ def _load_yaml(name: str) -> Dict[str, Any]:
     name = _safe_yaml_name(name)
     with (TAGS_DIR / name).open("r", encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
+
     if not isinstance(data, dict):
         raise ValueError("YAML root must be a mapping/dictionary.")
+
     return data
 
 
 def _normalize_categories(data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
-    """
-    Supported formats:
-
-    Recommended flat categories:
-      髪型:
-        ショートヘア: short hair
-      髪色:
-        赤色: red hair
-
-    Single-root nested categories:
-      髪のタイプ:
-        髪型:
-          ショートヘア:
-            - short hair
-        髪色:
-          赤色:
-            - red hair
-    """
     if len(data) == 1:
         only_value = next(iter(data.values()))
         if isinstance(only_value, dict) and all(isinstance(v, dict) for v in only_value.values()):
             return only_value
 
     categories: Dict[str, Dict[str, Any]] = {}
+
     for category, options in data.items():
         if isinstance(options, dict):
             categories[str(category)] = options
+
     return categories
 
 
 def _value_to_tags(value: Any) -> List[str]:
     if value is None:
         return []
+
     if isinstance(value, str):
         return [value.strip()] if value.strip() else []
+
     if isinstance(value, (int, float)):
         return [str(value)]
+
     if isinstance(value, (list, tuple)):
         tags: List[str] = []
         for item in value:
             tags.extend(_value_to_tags(item))
         return tags
+
     if isinstance(value, dict):
         for key in ("prompt", "prompts", "tag", "tags", "text", "value"):
             if key in value:
                 return _value_to_tags(value[key])
         return []
+
     return [str(value)]
 
-_CHOICE_PATTERN = re.compile(r"\{([^{}|]+(?:\|[^{}|]+)+)\}")
+
+_CHOICE_PATTERN = re.compile(r"\{([^{}]*)\}")
 
 
 def _resolve_choice_syntax(text: str) -> str:
     """
-    Resolve simple wildcard choice syntax:
-      {a|b|c} -> one of a / b / c
+    Supported syntax:
+
+      {a|b|c}
+        -> choose one
+
+      {a||}
+        -> a / empty / empty
+        -> a 33%, empty 66%
+
+      {1$$3::a|b|c|d}
+        -> choose 1 to 3 items
+
+      {a}
+        -> unchanged
 
     Nested braces are not supported.
     """
 
     def replace(match: re.Match) -> str:
-        options = [part.strip() for part in match.group(1).split("|") if part.strip()]
-        return random.choice(options) if options else ""
+        body = match.group(1)
+
+        multi_match = re.match(r"^(\d+)\$\$(\d+)::(.*)$", body)
+
+        if multi_match:
+            min_count = int(multi_match.group(1))
+            max_count = int(multi_match.group(2))
+            raw_options = multi_match.group(3)
+
+            if min_count > max_count:
+                min_count, max_count = max_count, min_count
+
+            options = [
+                option.strip()
+                for option in raw_options.split("|")
+                if option.strip()
+            ]
+
+            if not options:
+                return ""
+
+            max_count = min(max_count, len(options))
+            min_count = min(min_count, max_count)
+
+            count = random.randint(min_count, max_count)
+
+            if count <= 0:
+                return ""
+
+            selected = random.sample(options, count)
+            return ", ".join(selected)
+
+        if "|" not in body:
+            return match.group(0)
+
+        options = [part.strip() for part in body.split("|")]
+        return random.choice(options)
 
     return _CHOICE_PATTERN.sub(replace, str(text))
+
 
 def _schema_for_yaml(name: str) -> Dict[str, Any]:
     data = _load_yaml(name)
     categories = _normalize_categories(data)
     schema_categories = []
+
     for category, options in categories.items():
         if not isinstance(options, dict):
             continue
+
         labels = [str(label) for label in options.keys()]
-        schema_categories.append({"name": str(category), "options": ["なし"] + labels})
-    return {"yaml_file": name, "categories": schema_categories}
+
+        schema_categories.append({
+            "name": str(category),
+            "options": ["なし"] + labels,
+        })
+
+    return {
+        "yaml_file": name,
+        "categories": schema_categories,
+    }
 
 
 def _join_tags(tags: List[str], separator: str, trailing_comma: bool) -> str:
@@ -138,6 +187,7 @@ def _join_tags(tags: List[str], separator: str, trailing_comma: bool) -> str:
         for tag in tags
         if str(tag).strip()
     ]
+
     clean = [tag for tag in clean if tag]
 
     if not clean:
@@ -154,14 +204,6 @@ def _join_tags(tags: List[str], separator: str, trailing_comma: bool) -> str:
 
 
 class CategoryTagSelector:
-    """
-    YAML category tag selector.
-
-    Frontend JS reads the selected YAML and adds one dropdown per YAML category title.
-    Selected Japanese labels are stored into selections_json.
-    Backend maps those labels to prompt tags and outputs a single STRING.
-    """
-
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -172,9 +214,17 @@ class CategoryTagSelector:
                 "selections_json": ("STRING", {"default": "{}", "multiline": True}),
             }
         }
+
     @classmethod
-    def IS_CHANGED(cls, yaml_file: str, separator: str = ", ", trailing_comma: bool = True, selections_json: str = "{}"):
+    def IS_CHANGED(
+        cls,
+        yaml_file: str,
+        separator: str = ", ",
+        trailing_comma: bool = True,
+        selections_json: str = "{}",
+    ):
         return random.random()
+
     RETURN_TYPES = ("STRING", "STRING")
     RETURN_NAMES = ("prompt", "title_text")
     FUNCTION = "build_prompt"
@@ -191,8 +241,10 @@ class CategoryTagSelector:
             data = _load_yaml(yaml_file)
             categories = _normalize_categories(data)
             selections = json.loads(selections_json or "{}")
+
             if not isinstance(selections, dict):
                 selections = {}
+
         except Exception as exc:
             error_text = f"[CategoryTagSelector error: {exc}]"
             return (error_text, "")
@@ -200,7 +252,6 @@ class CategoryTagSelector:
         tags: List[str] = []
         selected_titles: List[str] = []
 
-        # YAML側のカテゴリ順を維持して出力する
         for category, options in categories.items():
             if not isinstance(options, dict):
                 continue
@@ -222,6 +273,7 @@ class CategoryTagSelector:
 def _register_routes():
     if PromptServer is None:
         return
+
     routes = PromptServer.instance.routes
 
     @routes.get("/category_tag_selector/yamls")
@@ -234,11 +286,20 @@ def _register_routes():
             yaml_file = request.query.get("file", "") or _list_yaml_files()[0]
             return web.json_response(_schema_for_yaml(yaml_file))
         except Exception as exc:
-            return web.json_response({"error": str(exc), "categories": []}, status=400)
+            return web.json_response(
+                {"error": str(exc), "categories": []},
+                status=400,
+            )
 
 
 _register_routes()
 
-NODE_CLASS_MAPPINGS = {"CategoryTagSelector": CategoryTagSelector}
-NODE_DISPLAY_NAME_MAPPINGS = {"CategoryTagSelector": "Category Tag Selector(nobin)"}
+NODE_CLASS_MAPPINGS = {
+    "CategoryTagSelector": CategoryTagSelector,
+}
+
+NODE_DISPLAY_NAME_MAPPINGS = {
+    "CategoryTagSelector": "Category Tag Selector(nobin)",
+}
+
 WEB_DIRECTORY = "./web/js"
