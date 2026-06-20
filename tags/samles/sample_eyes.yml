@@ -1,4 +1,6 @@
   目の形:
+    ランダム:
+      - true
     大きな目:
       - large eyes
     つり目:
@@ -21,6 +23,8 @@
     金色:
       - golden eyes
   目の表情:
+    ランダム:
+      - true
     優しい目:
       - gentle eyes
     眠そうな目:

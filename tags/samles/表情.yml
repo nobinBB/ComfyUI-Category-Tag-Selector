@@ -1,0 +1,511 @@
+ノーマル表情:
+  無表情:
+    - 
+  普通:
+    - neutral expression
+  微笑み:
+    - slight smile
+  笑顔:
+    - smile
+  満面の笑み:
+    - happy smile
+  にっこり:
+    - cheerful smile
+  嬉しい:
+    - happy
+  楽しそう:
+    - joyful
+  大笑い:
+    - laughing
+  照れ:
+    - blush
+  恥ずかしい:
+    - embarrassed
+  赤面:
+    - flushed
+  ウインク:
+    - wink
+  片目ウインク:
+    - one eye closed
+  いたずら笑い:
+    - mischievous smile
+  ドヤ顔:
+    - smug
+  自信満々:
+    - confident
+  得意げ:
+    - self-satisfied
+  挑発的:
+    - teasing smile
+  誘惑的:
+    - seductive smile
+  ジト目:
+    - half-closed eyes
+  眠そう:
+    - sleepy
+  疲れ顔:
+    - tired
+  ぼんやり:
+    - absent-minded
+  驚き:
+    - surprised
+  びっくり:
+    - shocked
+  困惑:
+    - confused
+  焦り:
+    - nervous
+  不安:
+    - anxious
+  悲しい:
+    - sad
+  泣き:
+    - crying
+  涙目:
+    - teary eyes
+  怒り:
+    - angry
+  ムッとする:
+    - annoyed
+  不機嫌:
+    - displeased
+  真剣:
+    - serious
+  決意:
+    - determined
+  考え事:
+    - thoughtful
+  見下し:
+    - contemptuous
+  軽蔑:
+    - scornful
+  冷たい視線:
+    - cold stare
+  ヤンデレ:
+    - yandere
+  病み顔:
+    - unstable expression
+  うっとり:
+    - dreamy expression
+  恍惚:
+    - ecstatic expression
+  とろ顔:
+    - torogao
+  ぽかん:
+    - blank stare
+  アヘ顔:
+    - ahegao
+  表情オール:
+    >-
+    {expressionless| neutral expression|slight smile|smile|happy smile|cheerful smile|happy|joyful|laughing|blush|embarrassed|flushed|wink|one eye closed|mischievous smile|smug|confident|self-satisfied|teasing smile|seductive smile|half-closed eyes|sleepy|tired|absent-minded|surprised|shocked|confused|nervous|anxious|sad|crying|teary eyes|angry|annoyed|displeased|serious|determined|thoughtful|contemptuous|scornful|cold stare|yandere|unstable expression|dreamy expression|ecstatic expression|torogao|blank stare|ahegao}
+  ノーマル表情バリエーション1:
+    口閉じ:
+      - closed mouth
+    口開け:
+      - open mouth
+    少し口開け:
+      - slightly open mouth
+    大きく口開け:
+      - mouth open
+    歯見せ:
+      - teeth visible
+    八重歯見せ:
+      - fang
+    舌出し:
+      - tongue out
+    少し舌出し:
+      - blep
+    舌を突き出す:
+      - sticking out tongue
+    唇を噛む:
+      - biting lip
+    下唇を噛む:
+      - biting lower lip
+    唇を尖らせる:
+      - pout
+    ふくれっ面:
+      - puffed cheeks
+    頬を膨らませる:
+      - puffed cheeks
+    よだれ:
+      - drooling
+    よだれ垂らし:
+      - drool
+    荒い息:
+      - heavy breathing
+    はぁはぁ:
+      - panting
+    キス顔:
+      - kissing pose
+    投げキス:
+      - blowing a kiss
+    片目閉じ:
+      - one eye closed
+    ウインク:
+      - wink
+    両目閉じ:
+      - closed eyes
+    目を細める:
+      - narrowed eyes
+    半目:
+      - half-closed eyes
+    眠たげ:
+      - sleepy eyes
+    見開く:
+      - wide-eyed
+    上目遣い:
+      - looking up
+    流し目:
+      - sidelong glance
+    ジト目:
+      - jitome
+    ハート目:
+      - heart-shaped pupils
+    星目:
+      - star-shaped pupils
+    ぐるぐる目:
+      - spiral eyes
+    白目:
+      - rolled eyes
+    赤面:
+      - blush
+    顔真っ赤:
+      - deep blush
+    涙目:
+      - teary eyes
+    涙:
+      - tears
+    汗:
+      - sweat
+    冷や汗:
+      - nervous sweat
+    照れ笑い:
+      - embarrassed smile
+    困り顔:
+      - troubled expression
+    不満顔:
+      - displeased
+    不機嫌:
+      - annoyed
+    怒り:
+      - angry
+    驚愕:
+      - shocked
+    絶望:
+      - despair
+    病み顔:
+      - unstable expression
+    誘惑:
+      - seductive smile
+    挑発:
+      - teasing smile
+    うっとり:
+      - dreamy expression
+    恍惚:
+      - ecstatic expression
+    とろ顔:
+      - torogao
+    アヘ顔:
+      - ahegao
+    発情:
+      - lustful expression
+    快楽顔:
+      - pleasure face
+    蕩け顔:
+      - melting expression
+    酔った顔:
+      - drunken expression
+    笑顔:
+      - smile
+    微笑み:
+      - slight smile
+    にっこり:
+      - cheerful smile
+    大笑い:
+      - laughing
+    ドヤ顔:
+      - smug
+    無表情:
+      - expressionless
+    真顔:
+      - blank expression
+    ぽかん:
+      - blank stare
+    ノーマル表情バリエーションオール1:
+      >-
+      {closed mouth|open mouth|slightly open mouth|mouth open|teeth visible|fang|tongue out|blep|sticking out tongue|biting lip|biting lower lip|pout|puffed cheeks|drooling|drool|heavy breathing|panting|kissing pose|blowing a kiss|one eye closed|wink|closed eyes|narrowed eyes|half-closed eyes|sleepy eyes|wide-eyed|looking up|sidelong glance|jitome|heart-shaped pupils|star-shaped pupils|spiral eyes|rolled eyes|blush|deep blush|teary eyes|tears|sweat|nervous sweat|embarrassed smile|troubled expression|displeased|annoyed|angry|shocked|despair|unstable expression|seductive smile|teasing smile|dreamy expression|ecstatic expression|torogao|ahegao|lustful expression|pleasure face|melting expression |drunken expression |smile |slight smile |cheerful smile |laughing |smug |expressionless |blank expression |blank stare} 
+  ノーマル表情バリエーション2:
+    口閉じ:
+      - closed mouth
+    口開け:
+      - open mouth
+    少し口開け:
+      - slightly open mouth
+    大きく口開け:
+      - mouth open
+    歯見せ:
+      - teeth visible
+    八重歯見せ:
+      - fang
+    舌出し:
+      - tongue out
+    少し舌出し:
+      - blep
+    舌を突き出す:
+      - sticking out tongue
+    唇を噛む:
+      - biting lip
+    下唇を噛む:
+      - biting lower lip
+    唇を尖らせる:
+      - pout
+    ふくれっ面:
+      - puffed cheeks
+    頬を膨らませる:
+      - puffed cheeks
+    よだれ:
+      - drooling
+    よだれ垂らし:
+      - drool
+    荒い息:
+      - heavy breathing
+    はぁはぁ:
+      - panting
+    キス顔:
+      - kissing pose
+    投げキス:
+      - blowing a kiss
+    片目閉じ:
+      - one eye closed
+    ウインク:
+      - wink
+    両目閉じ:
+      - closed eyes
+    目を細める:
+      - narrowed eyes
+    半目:
+      - half-closed eyes
+    眠たげ:
+      - sleepy eyes
+    見開く:
+      - wide-eyed
+    上目遣い:
+      - looking up
+    流し目:
+      - sidelong glance
+    ジト目:
+      - jitome
+    ハート目:
+      - heart-shaped pupils
+    星目:
+      - star-shaped pupils
+    ぐるぐる目:
+      - spiral eyes
+    白目:
+      - rolled eyes
+    赤面:
+      - blush
+    顔真っ赤:
+      - deep blush
+    涙目:
+      - teary eyes
+    涙:
+      - tears
+    汗:
+      - sweat
+    冷や汗:
+      - nervous sweat
+    照れ笑い:
+      - embarrassed smile
+    困り顔:
+      - troubled expression
+    不満顔:
+      - displeased
+    不機嫌:
+      - annoyed
+    怒り:
+      - angry
+    驚愕:
+      - shocked
+    絶望:
+      - despair
+    病み顔:
+      - unstable expression
+    誘惑:
+      - seductive smile
+    挑発:
+      - teasing smile
+    うっとり:
+      - dreamy expression
+    恍惚:
+      - ecstatic expression
+    とろ顔:
+      - torogao
+    アヘ顔:
+      - ahegao
+    発情:
+      - lustful expression
+    快楽顔:
+      - pleasure face
+    蕩け顔:
+      - melting expression
+    酔った顔:
+      - drunken expression
+    笑顔:
+      - smile
+    微笑み:
+      - slight smile
+    にっこり:
+      - cheerful smile
+    大笑い:
+      - laughing
+    ドヤ顔:
+      - smug
+    無表情:
+      - expressionless
+    真顔:
+      - blank expression
+    ぽかん:
+      - blank stare
+    ノーマル表情バリエーションオール2:
+      >-
+      {closed mouth|open mouth|slightly open mouth|mouth open|teeth visible|fang|tongue out|blep|sticking out tongue|biting lip|biting lower lip|pout|puffed cheeks|drooling|drool|heavy breathing|panting|kissing pose|blowing a kiss|one eye closed|wink|closed eyes|narrowed eyes|half-closed eyes|sleepy eyes|wide-eyed|looking up|sidelong glance|jitome|heart-shaped pupils|star-shaped pupils|spiral eyes|rolled eyes|blush|deep blush|teary eyes|tears|sweat|nervous sweat|embarrassed smile|troubled expression|displeased|annoyed|angry|shocked|despair|unstable expression|seductive smile|teasing smile|dreamy expression|ecstatic expression|torogao|ahegao|lustful expression|pleasure face|melting expression |drunken expression |smile |slight smile |cheerful smile |laughing |smug |expressionless |blank expression |blank stare} 
+
+  ノーマル表情バリエーション3:
+    口閉じ:
+      - closed mouth
+    口開け:
+      - open mouth
+    少し口開け:
+      - slightly open mouth
+    大きく口開け:
+      - mouth open
+    歯見せ:
+      - teeth visible
+    八重歯見せ:
+      - fang
+    舌出し:
+      - tongue out
+    少し舌出し:
+      - blep
+    舌を突き出す:
+      - sticking out tongue
+    唇を噛む:
+      - biting lip
+    下唇を噛む:
+      - biting lower lip
+    唇を尖らせる:
+      - pout
+    ふくれっ面:
+      - puffed cheeks
+    頬を膨らませる:
+      - puffed cheeks
+    よだれ:
+      - drooling
+    よだれ垂らし:
+      - drool
+    荒い息:
+      - heavy breathing
+    はぁはぁ:
+      - panting
+    キス顔:
+      - kissing pose
+    投げキス:
+      - blowing a kiss
+    片目閉じ:
+      - one eye closed
+    ウインク:
+      - wink
+    両目閉じ:
+      - closed eyes
+    目を細める:
+      - narrowed eyes
+    半目:
+      - half-closed eyes
+    眠たげ:
+      - sleepy eyes
+    見開く:
+      - wide-eyed
+    上目遣い:
+      - looking up
+    流し目:
+      - sidelong glance
+    ジト目:
+      - jitome
+    ハート目:
+      - heart-shaped pupils
+    星目:
+      - star-shaped pupils
+    ぐるぐる目:
+      - spiral eyes
+    白目:
+      - rolled eyes
+    赤面:
+      - blush
+    顔真っ赤:
+      - deep blush
+    涙目:
+      - teary eyes
+    涙:
+      - tears
+    汗:
+      - sweat
+    冷や汗:
+      - nervous sweat
+    照れ笑い:
+      - embarrassed smile
+    困り顔:
+      - troubled expression
+    不満顔:
+      - displeased
+    不機嫌:
+      - annoyed
+    怒り:
+      - angry
+    驚愕:
+      - shocked
+    絶望:
+      - despair
+    病み顔:
+      - unstable expression
+    誘惑:
+      - seductive smile
+    挑発:
+      - teasing smile
+    うっとり:
+      - dreamy expression
+    恍惚:
+      - ecstatic expression
+    とろ顔:
+      - torogao
+    アヘ顔:
+      - ahegao
+    発情:
+      - lustful expression
+    快楽顔:
+      - pleasure face
+    蕩け顔:
+      - melting expression
+    酔った顔:
+      - drunken expression
+    笑顔:
+      - smile
+    微笑み:
+      - slight smile
+    にっこり:
+      - cheerful smile
+    大笑い:
+      - laughing
+    ドヤ顔:
+      - smug
+    無表情:
+      - expressionless
+    真顔:
+      - blank expression
+    ぽかん:
+      - blank stare
+    ノーマル表情バリエーションオール3:
+      >-
+      {closed mouth|open mouth|slightly open mouth|mouth open|teeth visible|fang|tongue out|blep|sticking out tongue|biting lip|biting lower lip|pout|puffed cheeks|drooling|drool|heavy breathing|panting|kissing pose|blowing a kiss|one eye closed|wink|closed eyes|narrowed eyes|half-closed eyes|sleepy eyes|wide-eyed|looking up|sidelong glance|jitome|heart-shaped pupils|star-shaped pupils|spiral eyes|rolled eyes|blush|deep blush|teary eyes|tears|sweat|nervous sweat|embarrassed smile|troubled expression|displeased|annoyed|angry|shocked|despair|unstable expression|seductive smile|teasing smile|dreamy expression|ecstatic expression|torogao|ahegao|lustful expression|pleasure face|melting expression |drunken expression |smile |slight smile |cheerful smile |laughing |smug |expressionless |blank expression |blank stare} 
+
+  

@@ -1,4 +1,6 @@
 髪型:
+  ランダム:
+    - true
   ショートヘア:
     - short hair
   ミディアムヘア:
@@ -9,11 +11,11 @@
     - perm hair
   ストレートヘア:
     - straight hair
-  ランダム髪型:
-    >-
-     {short hair|medium hair|bob hair|perm hair|straight hair}
+
 
 髪色:
+  ランダム:
+    - true  
   黒色:
     - black hair
   茶色:
