@@ -1,0 +1,95 @@
+アングル:
+  正面1:
+    - front view
+  正面2:
+    - straight-on
+  上から1:
+    - from above
+  上から2:
+    - high angle
+  上から3:
+    - top-down view
+  上から4:
+    - bird's-eye view
+  下から1:
+    - from below
+  下から2:
+    - low angle
+  横1:
+    - from side
+  横2:
+    - side view
+  横3:
+    - profile
+  後ろ1:
+    - from behind
+  後ろ2:
+    - back view
+  斜め1:
+    - three-quarter view
+  傾き1:
+    - dutch angle
+  オールアングル:
+    >-
+    {front view|straight-on|from above|high angle|top-down view|bird's-eye view|from below|low angle|from side|side view|profile|from behind|back view|three-quarter view|dutch angle}
+
+フレーミング-組み合わせ注意:
+  顔のみ1:
+    - face focus
+  顔のみ2:
+    - close-up
+  顔のみ3:
+    - extreme close-up
+  胸上1:
+    - portrait
+  胸上2:
+    - bust shot
+  上半身1:
+    - upper body
+  腰上1:
+    - cowboy shot
+  太もも上1:
+    - medium shot
+  全身1:
+    - full body
+  遠景1:
+    - wide shot
+  遠景2:
+    - long shot
+  フレーミングオール:
+    >-
+    {face focus|close-up|extreme close-up|portrait|bust shot|upper body|cowboy shot|medium shot|full body|wide shot|long shot}
+
+向き:
+  正面1:
+    - facing viewer
+  正面2:
+    - front-facing
+  左向き1:
+    - facing left
+  右向き1:
+    - facing right
+  後ろ向き1:
+    - back to viewer
+  振り返り1:
+    - looking back
+  振り返り2:
+    - over shoulder
+  向きオール:
+    >-  
+    {facing viewer|front-facing|facing left|facing right|back to viewer|looking back|over shoulder}
+
+視線:
+  カメラ目線1:
+    - looking at viewer
+  横を見る1:
+    - looking to the side
+  上を見る1:
+    - looking up
+  下を見る1:
+    - looking down
+  視線外し1:
+    - looking away
+  視線オール:
+    >-
+    {looking at viewer|looking to the side|looking up|looking down|looking away} 
